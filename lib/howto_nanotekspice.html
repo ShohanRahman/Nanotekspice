@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NanoTekSpice</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div style="margin-left: 25%; margin-right: 25%; text-align: justify; min-width: 455px">
+      <header style="text-align: center;">
+        <h2>NanoTekSpice</h2>
+        <p>Projet Epitech B4 C++</p>
+      </header>
+      <hr>
+      <section>
+        <h3>I] La librairie</h3>
+	Nanotekspice permet, via un fichier .nts fournit en paramètre,
+	de simuler un circuit entre plusieurs chipsets.
+      </section>
+      <section>
+        <h3>II] Chipsets disponibles</h3>
+	Ci-dessous une liste exhaustive des chipsets disponible à cette version 1.0:
+        <ul>
+          <li>4001: 4 gates NOR</li>
+          <li>4008: 4 bits adder</li>
+          <li>4011: 4 gates NAND</li>
+          <li>4030: 4 gates XOR</li>
+          <li>4069: 6 gates NOT</li>
+          <li>4071: 4 gates OR</li>
+          <li>4081: 4 gates AND</li>
+        </ul>
+      </section>
+      <section>
+        <h3>III] Utilisation</h3>
+	<h4>a) Exemple</h4>
+	<p>
+	#include "Exception.hpp"<br/>
+	#include "Nanotekspice.hpp"<br/>
+	...<br/>
+	nts::Nanotekspice *nano = NULL;<br/>
+	if (ac < 2)<br/>
+	{<br/>
+		 &emsp;std::cout << "Usage: file.nts [[input=value] [...]]" << std::endl;<br/>
+	         &emsp;return (0);<br/>
+	}<br/>
+        try {<br/>
+          &emsp;nano = new nts::Nanotekspice(av[1], ac, av);<br/>
+	  &emsp;nano->shell(); // lance l'interpreteur de commande<br/>
+	  &emsp;delete nano;<br/>
+        } catch (nts::NtsError const& e) {<br/>
+          &emsp;std::cout << e.what() << std::endl;<br/>
+        }<br/>
+	...<br/>
+	<h4>b) Ligne de commande</h4>
+	<p>./exemple circuit.nts i1=1 i2=1</p>
+	</p>
+      </section>
+      <section>
+        <h3>IV] Les .nts</h3>
+	<h4>a) Règles</h4>
+	Les fichiers ".nts" représentent les circuits que le NanoTekSpice va interprêter.<br/>
+	Il y a donc certaines règler à impérativement respecter:
+	<ul>
+	  <li>La déclaration des chipsets doivent être encapsulés par ".chipsets:"</li>
+	  <li>La déclaration des liens doivent être encapsulés par ".links:"</li>
+	  <li>Les pins liés doivent exister</li>
+	  <li>Un composant doit avoir un nom unique</li>
+	  <li>Tous les outputs doivent être liées</li>
+	  <li>Tous les inputs doivent être initialisés à la ligne de commande (c.f III.b) et avoir comme valeur 0 ou 1</li>
+	</ul>
+	<h4>a) Exemple</h4>
+	<p>
+	  .chipsets:<br/>
+	  input           i1<br/>
+	  input           i2<br/>
+	  input           i3<br/>
+	  input           i4<br/>
+	  <br/>
+	  output          s1<br/>
+	  output          s2<br/>
+	  <br/>
+	  4081            and<br/>
+	  <br/>	
+	  .links:<br/>
+	  i1:1            and:1<br/>
+	  i2:1            and:2<br/>
+	  i3:1            and:5<br/>
+	  i4:1            and:6<br/>
+	  <br/>
+	  s1:1		and:3<br/>
+	  s2:1		and:4<br/><br/>
+	</p>
+	<p>./exemple circuit.nts i1=1 i2=0 i3=1 i4=1</p>
+      </section>
+      <section>
+        <h3>V] Les commandes</h3>
+	<p>
+	  Maintenant que nous avons vue comment lancer un binaire nanotekspice, nous allons permettre<br/>
+	  à l'utilisateur d'avoir accés à une interpreteur de commande grâce à nts::Nanotekspice::shell.<br/>
+	  Les commandes disponibles sont:
+	</p>
+	<ul>
+	  <li>exit: quitte l'interpreteur de commande,</li>
+	  <li>display: affiche l'etat des outputs triés par ordre alphabétique,</li>
+	  <li>input=value: change de valeur un input,</li>
+	  <li>simulate: lance une simulation,</li>
+	  <li>loop: lance des simulations en boucle tant que l'utilisateur n'appuie pas sur les touches CTRL+C,</li>
+	  <li>dump: affiche l'état de tous les composants ainsi que de ses pins.</li>
+	</ul>
+      </section>
+      <hr>
+      <footer style="text-align: center;">
+        <p>Par Stéphane GALIBERT et Jordan AVELINE, promotion 2019</p>
+      </footer>
+    </div>
+  </body>
+</html>
